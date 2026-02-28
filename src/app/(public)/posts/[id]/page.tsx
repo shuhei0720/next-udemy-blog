@@ -39,7 +39,7 @@ export default async function PostPage({ params }: Params) {
         <CardHeader>
           <div className="flex justify-between items-center mb-4">
             <p className="text-sm text-gray-500">
-              投稿者: {post.authorname}
+              投稿者: {post.author.name}
             </p>
             <time className="text-sm text-gray-500">
               {format(new Date(post.createdAt), 'yyyy年MM月dd日', { locale: ja })}
