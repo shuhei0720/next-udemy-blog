@@ -1,11 +1,7 @@
-const config = {
-  plugins: {
-    "@tailwindcss/postcss": {
-      plugins: {
-        "@tailwindcss/typography": {},
-      },
-    },
-  },
-};
+import tailwindcss from '@tailwindcss/postcss';
 
-export default config;
+export default {
+  plugins: [
+    tailwindcss(),
+  ],
+};
