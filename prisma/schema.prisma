@@ -20,7 +20,7 @@ model User {
   password String 
   posts Post[]
   createdAt DateTime @default(now())
-  updatedat DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model Post {
@@ -32,5 +32,5 @@ model Post {
   authorId String
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
-  updatedat DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
