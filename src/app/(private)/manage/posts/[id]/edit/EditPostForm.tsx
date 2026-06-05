@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Content } from "@radix-ui/react-navigation-menu";
 import { createPost } from "@/lib/actions/createPost";
 import Image from "next/image";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 type EditPostFormProps = {
   post: {
@@ -124,6 +125,16 @@ export default function EditPostForm({ post }: EditPostFormProps) {
             </ReactMarkdown>
           </div>
         )}
+        <RadioGroup value={published.toString()} name="published" onValueChange={(value) => setPublished(value === 'true')}>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="true" id="published-one" />
+            <Label htmlFor="published-one">表示</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="false" id="published-two" />
+            <Label htmlFor="published-two">非表示</Label>
+          </div>
+        </RadioGroup>
         <Button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">更新する</Button>
         <input type="hidden" name="id" value={post.id} />
         <input type="hidden" name="oldImageurl" value={post.topImage || ''} />
