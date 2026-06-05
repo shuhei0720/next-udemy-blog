@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useActionState } from "react";
+import React, { useState, useActionState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Content } from "@radix-ui/react-navigation-menu";
 import { createPost } from "@/lib/actions/createPost";
+import Image from "next/image";
 
 type EditPostFormProps = {
   post: {
@@ -37,6 +38,24 @@ export default function EditPostForm({ post }: EditPostFormProps) {
     setContent(value)
     setContentLength(value.length)
   }
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
+    }
+  }
+
+  useEffect(() => {
+    return () => {
+      if (imagePreview && imagePreview !== post.topImage) {
+        URL.revokeObjectURL(imagePreview)
+      }
+    }
+  }, [imagePreview, post.topImage])
+
+
   return (
     <div className="container mx-auto mt-10">
       <h1 className="text-2xl font-bold mb-4">新規記事投稿(markdown対応)</h1>
@@ -57,7 +76,21 @@ export default function EditPostForm({ post }: EditPostFormProps) {
             id="topImage"
             accept="image/*"
             name="topImage"
+            onChange={handleImageChange}
           />
+          {imagePreview && (
+            <div className="mt-2">
+              <Image
+                src={imagePreview}
+                alt={post.title}
+                width={0}
+                height={0}
+                sizes="200px"
+                className="w-[200px]"
+                priority
+              />
+            </div>
+          )}
           {state.errors.topImage && (
             <p className="text-red-500 text-sm mt-1">{state.errors.topImage.join(',')}</p>
           )}
